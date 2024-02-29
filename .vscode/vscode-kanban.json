@@ -1,0 +1,107 @@
+{
+  "todo": [
+    {
+      "assignedTo": {
+        "name": "Aditya Dhafa P"
+      },
+      "creation_time": "2024-02-29T11:18:55.628Z",
+      "description": {
+        "content": "PENTINGG INI DLUU, trs baru introduction sama nambahin pagenya?, trs baruu yang benerin main.dart biar bisa muncul page goalsetnyaa pake javaa",
+        "mime": "text/markdown"
+      },
+      "id": "7",
+      "prio": 2,
+      "references": [],
+      "title": "liatt and tauu cara kerjanyaa yang app nya partt, biar tau bott view juga"
+    },
+    {
+      "assignedTo": {
+        "name": "Aditya Dhafa P"
+      },
+      "creation_time": "2024-02-29T10:24:57.253Z",
+      "id": "6",
+      "prio": 1,
+      "references": [],
+      "title": "ngebuat ui nyaaa mindfule pagee kek di part 7 or yg welcome pagee"
+    },
+    {
+      "assignedTo": {
+        "name": "Aditya Dhafa P"
+      },
+      "creation_time": "2024-02-29T00:28:53.822Z",
+      "description": {
+        "content": "ngubah jadi introduction screen\n+nambah page yang terakhir atau yg pertama yg get started punyanya silent moon welcome page",
+        "mime": "text/markdown"
+      },
+      "id": "1",
+      "references": [],
+      "title": "Ngebuat Introduction SCree"
+    },
+    {
+      "assignedTo": {
+        "name": "Aditya Dhafa P"
+      },
+      "creation_time": "2024-02-29T00:29:36.051Z",
+      "id": "2",
+      "references": [],
+      "title": "ngebuat uinya main_home page"
+    },
+    {
+      "assignedTo": {
+        "name": "Aditya Dhafa P"
+      },
+      "creation_time": "2024-02-29T00:44:48.840Z",
+      "description": {
+        "content": "jadi pas udah pernah introduction ya ngga buka itu lagi, tp langsung main_home page, sedangkan waktu pertama kali tapi introduction dlu baru main_home page ",
+        "mime": "text/markdown"
+      },
+      "id": "5",
+      "references": [],
+      "title": "segera memperbaiki tab bott view biar bisa liat page lain (mindfulness sama 20 20) sama introductionnya"
+    }
+  ],
+  "in-progress": [
+    {
+      "assignedTo": {
+        "name": "Aditya Dhafa P"
+      },
+      "creation_time": "2024-02-29T00:31:54.275Z",
+      "description": {
+        "content": "trs nanti dimunculin",
+        "mime": "text/markdown"
+      },
+      "details": {
+        "content": "benerin ui\nngasih fitur ngebuka page ini otomatis\nsama perizinan geo taruh di introduction\nngasih tombol lanjut/save",
+        "mime": "text/markdown"
+      },
+      "id": "4",
+      "references": [],
+      "title": "ngebuat goal_set page"
+    },
+    {
+      "assignedTo": {
+        "name": "Aditya Dhafa P"
+      },
+      "creation_time": "2024-02-29T12:17:52.246Z",
+      "id": "8",
+      "references": [],
+      "title": "pokonya selesai hari iniii, besok mau ngeplann sama propooo"
+    }
+  ],
+  "testing": [],
+  "done": [
+    {
+      "assignedTo": {
+        "name": "Aditya Dhafa P"
+      },
+      "creation_time": "2024-02-29T00:31:20.619Z",
+      "description": {
+        "content": "mau dua tab apa gimana? iya deh satunya tab description wkwk ga guna",
+        "mime": "text/markdown"
+      },
+      "id": "3",
+      "references": [],
+      "title": "negbuat tab bottom view"
+    }
+  ]
+}
