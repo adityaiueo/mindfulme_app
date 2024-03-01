@@ -2,17 +2,17 @@
   "todo": [
     {
       "assignedTo": {
-        "name": "Aditya Dhafa P"
+        "name": "adityaiueo"
       },
-      "creation_time": "2024-02-29T11:18:55.628Z",
+      "creation_time": "2024-02-29T15:00:51.420Z",
       "description": {
-        "content": "PENTINGG INI DLUU, trs baru introduction sama nambahin pagenya?, trs baruu yang benerin main.dart biar bisa muncul page goalsetnyaa pake javaa",
+        "content": "sama test juga, itu bisa apa ngga sebenernya\nsama permissionnya juga dilengkapi",
         "mime": "text/markdown"
       },
-      "id": "7",
+      "id": "9",
       "prio": 2,
       "references": [],
-      "title": "liatt and tauu cara kerjanyaa yang app nya partt, biar tau bott view juga"
+      "title": "ngebuat function biar fitur muncul hasil dari getrunningapps"
     },
     {
       "assignedTo": {
@@ -58,6 +58,16 @@
       "id": "5",
       "references": [],
       "title": "segera memperbaiki tab bott view biar bisa liat page lain (mindfulness sama 20 20) sama introductionnya"
+    },
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
+      "creation_time": "2024-02-29T15:01:09.581Z",
+      "id": "10",
+      "prio": 2,
+      "references": [],
+      "title": "ngebenerin error gradle biar bisa emulator"
     }
   ],
   "in-progress": [
@@ -67,7 +77,7 @@
       },
       "creation_time": "2024-02-29T00:31:54.275Z",
       "description": {
-        "content": "trs nanti dimunculin",
+        "content": "kurang ui nya\nsama function buat nanti dimunculin",
         "mime": "text/markdown"
       },
       "details": {
@@ -90,6 +100,20 @@
   ],
   "testing": [],
   "done": [
+    {
+      "assignedTo": {
+        "name": "Aditya Dhafa P"
+      },
+      "creation_time": "2024-02-29T11:18:55.628Z",
+      "description": {
+        "content": "PENTINGG INI DLUU, trs baru introduction sama nambahin pagenya?, trs baruu yang benerin main.dart biar bisa muncul page goalsetnyaa pake javaa",
+        "mime": "text/markdown"
+      },
+      "id": "7",
+      "prio": 2,
+      "references": [],
+      "title": "liatt and tauu cara kerjanyaa yang app nya partt, biar tau bott view juga"
+    },
     {
       "assignedTo": {
         "name": "Aditya Dhafa P"

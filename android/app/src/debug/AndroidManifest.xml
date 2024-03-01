@@ -1,7 +1,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- The INTERNET permission is required for development. Specifically,
-         the Flutter tool needs it to communicate with the running application
-         to allow setting breakpoints, to provide hot reload, etc.
-    -->
+
+    <!-- Izin INTERNET diperlukan untuk pengembangan Flutter -->
     <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- Deklarasi aktivitas MainActivity -->
+    <application
+        android:name="io.flutter.app.FlutterApplication"
+        android:label="MindfulMe"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/AppTheme"
+
+        <activity android:name=".MainActivity">
+            <!-- Atur intent filter untuk aktivitas utama -->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
+        <!-- Deklarasi aktivitas atau komponen lainnya jika ada -->
+        <!-- Contoh: <activity android:name=".DetailActivity"/> -->
+        
+    </application>
 </manifest>

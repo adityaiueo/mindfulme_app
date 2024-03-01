@@ -3,17 +3,20 @@ import 'package:device_preview/device_preview.dart';
 import 'package:mindfulme_app/main_tabview/main_tabviewscreen.dart';
 import 'package:mindfulme_app/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mindfulme_app/screen/intro_page.dart'; 
+import 'package:mindfulme_app/screen/intro_page.dart';
 import 'package:flutter/services.dart';
-
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool? isIntroShown = prefs.getBool('isIntroShown');
-  
+
   runApp(
     DevicePreview(
+      enabled: true,
+      tools: const [
+        ...DevicePreview.defaultTools,
+      ],
       builder: (context) => MyApp(isIntroShown: isIntroShown ?? false),
     ),
   );
@@ -68,7 +71,7 @@ class GetRunningApp extends StatefulWidget {
 }
 
 class _GetRunningAppState extends State<GetRunningApp> {
-    // Membuat platform channel dengan nama 'getRunningApps'
+  // Membuat platform channel dengan nama 'getRunningApps'
   static const platform = MethodChannel('getRunningApps');
 
   // Menjadikan bidang runningApps late jika Anda ingin menginisialisasinya nanti
@@ -91,13 +94,13 @@ class _GetRunningAppState extends State<GetRunningApp> {
       print(e.message);
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text('Get Running Apps Example'),
+          title: const Text('Get Running Apps Example'),
         ),
         body: Center(
           child: Column(
@@ -105,7 +108,7 @@ class _GetRunningAppState extends State<GetRunningApp> {
             children: [
               ElevatedButton(
                 onPressed: getRunningApps,
-                child: Text('Get Running Apps'),
+                child: const Text('Get Running Apps'),
               ),
               Expanded(
                 child: ListView.builder(
