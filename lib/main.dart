@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:mindfulme_app/main_tabview/main_tabviewscreen.dart';
+import 'package:mindfulme_app/utils/background_service.dart';
 import 'package:mindfulme_app/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mindfulme_app/screen/intro_page.dart';
 import 'package:flutter/services.dart';
 
-void main() async {
+
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeService();
+
   SharedPreferences prefs = await SharedPreferences.getInstance();
   bool? isIntroShown = prefs.getBool('isIntroShown');
 
@@ -64,17 +68,17 @@ class MyApp extends StatelessWidget {
 }
 
 class GetRunningApp extends StatefulWidget {
-  const GetRunningApp({super.key});
+  const GetRunningApp({Key? key}) : super(key: key);
 
   @override
   State<GetRunningApp> createState() => _GetRunningAppState();
 }
 
 class _GetRunningAppState extends State<GetRunningApp> {
-  // Membuat platform channel dengan nama 'getRunningApps'
+  // Creating platform channel named 'getRunningApps'
   static const platform = MethodChannel('getRunningApps');
 
-  // Menjadikan bidang runningApps late jika Anda ingin menginisialisasinya nanti
+  // Making runningApps field late if you want to initialize it later
   late List<String> runningApps;
 
   @override

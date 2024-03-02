@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class MindfulPage extends StatefulWidget {
   const MindfulPage({Key? key}) : super(key: key);
@@ -50,7 +51,8 @@ class _MindfulPageState extends State<MindfulPage>
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Do something when the button is pressed
+                // Tutup aplikasi
+                SystemNavigator.pop();
               },
               child: const Text('Continue?'),
             ),

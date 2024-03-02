@@ -50,6 +50,9 @@ dependencies:
   geolocator: ^11.0.0
   geocoding: ^2.2.0
   flutter_keyboard_visibility: ^5.4.1
+  flutter_background_service: ^5.0.5
+  device_info_plus: ^9.1.2
+  url_launcher: ^6.2.5
 
 dev_dependencies:
   flutter_test:
@@ -64,10 +67,11 @@ flutter:
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
-  uses-material-design: true
 
   assets:
     - assets/
+
+  uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
   # assets:
