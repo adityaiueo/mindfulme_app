@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mindfulme_app/screen/main_home.dart';
+import 'package:mindfulme_app/screen/home_page.dart';
 import 'package:mindfulme_app/utils/colors.dart';
 
 class GetStartBtn extends StatefulWidget {

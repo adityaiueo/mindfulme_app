@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:mindfulme_app/main_tabview/main_tabviewscreen.dart';
 import 'package:mindfulme_app/utils/background_service.dart';
 import 'package:mindfulme_app/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mindfulme_app/screen/intro_page.dart';
 import 'package:flutter/services.dart';
-
+import 'package:uni_links/uni_links.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,67 +68,4 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class GetRunningApp extends StatefulWidget {
-  const GetRunningApp({Key? key}) : super(key: key);
 
-  @override
-  State<GetRunningApp> createState() => _GetRunningAppState();
-}
-
-class _GetRunningAppState extends State<GetRunningApp> {
-  // Creating platform channel named 'getRunningApps'
-  static const platform = MethodChannel('getRunningApps');
-
-  // Making runningApps field late if you want to initialize it later
-  late List<String> runningApps;
-
-  @override
-  void initState() {
-    super.initState();
-    runningApps = [];
-  }
-
-  Future<void> getRunningApps() async {
-    try {
-      final List<dynamic> result =
-          await platform.invokeMethod('getRunningApps');
-      setState(() {
-        runningApps = result.cast<String>();
-      });
-    } on PlatformException catch (e) {
-      print(e.message);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Get Running Apps Example'),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ElevatedButton(
-                onPressed: getRunningApps,
-                child: const Text('Get Running Apps'),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: runningApps.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(runningApps[index]),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}

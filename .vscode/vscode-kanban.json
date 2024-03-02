@@ -10,9 +10,33 @@
         "mime": "text/markdown"
       },
       "id": "9",
-      "prio": 2,
+      "prio": 3,
       "references": [],
       "title": "ngebuat function biar fitur muncul hasil dari getrunningapps"
+    },
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
+      "creation_time": "2024-03-02T08:52:36.002Z",
+      "description": {
+        "content": "sama si twenty_page gausah kali ya, dua aja",
+        "mime": "text/markdown"
+      },
+      "id": "11",
+      "prio": 3,
+      "references": [],
+      "title": "ngebuat mindfulness_page ui nyaa sama biar dia bisa nge set si mindful_page featuree. tambahan, sama ngeganti logika introduction nya biar single-time ajaa"
+    },
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
+      "creation_time": "2024-02-29T15:01:09.581Z",
+      "id": "10",
+      "prio": 2,
+      "references": [],
+      "title": "ngebenerin error gradle biar bisa emulator"
     },
     {
       "assignedTo": {
@@ -23,6 +47,23 @@
       "prio": 1,
       "references": [],
       "title": "ngebuat ui nyaaa mindfule pagee kek di part 7 or yg welcome pagee"
+    },
+    {
+      "assignedTo": {
+        "name": "Aditya Dhafa P"
+      },
+      "creation_time": "2024-02-29T00:31:54.275Z",
+      "description": {
+        "content": "kurang ui nya\nsama function buat nanti dimunculin",
+        "mime": "text/markdown"
+      },
+      "details": {
+        "content": "benerin ui\nngasih fitur ngebuka page ini otomatis\nsama perizinan geo taruh di introduction\nngasih tombol lanjut/save",
+        "mime": "text/markdown"
+      },
+      "id": "4",
+      "references": [],
+      "title": "ngebuat goal_set page"
     },
     {
       "assignedTo": {
@@ -58,44 +99,18 @@
       "id": "5",
       "references": [],
       "title": "segera memperbaiki tab bott view biar bisa liat page lain (mindfulness sama 20 20) sama introductionnya"
-    },
-    {
-      "assignedTo": {
-        "name": "adityaiueo"
-      },
-      "creation_time": "2024-02-29T15:01:09.581Z",
-      "id": "10",
-      "prio": 2,
-      "references": [],
-      "title": "ngebenerin error gradle biar bisa emulator"
     }
   ],
   "in-progress": [
     {
       "assignedTo": {
-        "name": "Aditya Dhafa P"
+        "name": "adityaiueo"
       },
-      "creation_time": "2024-02-29T00:31:54.275Z",
-      "description": {
-        "content": "kurang ui nya\nsama function buat nanti dimunculin",
-        "mime": "text/markdown"
-      },
-      "details": {
-        "content": "benerin ui\nngasih fitur ngebuka page ini otomatis\nsama perizinan geo taruh di introduction\nngasih tombol lanjut/save",
-        "mime": "text/markdown"
-      },
-      "id": "4",
+      "creation_time": "2024-03-02T08:53:28.911Z",
+      "id": "12",
+      "prio": 3,
       "references": [],
-      "title": "ngebuat goal_set page"
-    },
-    {
-      "assignedTo": {
-        "name": "Aditya Dhafa P"
-      },
-      "creation_time": "2024-02-29T12:17:52.246Z",
-      "id": "8",
-      "references": [],
-      "title": "pokonya selesai hari iniii, besok mau ngeplann sama propooo"
+      "title": "background service darttt (sama gimana cara makenya di main, kok unused) sama function buat manggil page samaa deep linking app kuu/pagenya"
     }
   ],
   "testing": [],
@@ -126,6 +141,15 @@
       "id": "3",
       "references": [],
       "title": "negbuat tab bottom view"
+    },
+    {
+      "assignedTo": {
+        "name": "Aditya Dhafa P"
+      },
+      "creation_time": "2024-02-29T12:17:52.246Z",
+      "id": "8",
+      "references": [],
+      "title": "pokonya selesai hari iniii, besok mau ngeplann sama propooo"
     }
   ]
 }

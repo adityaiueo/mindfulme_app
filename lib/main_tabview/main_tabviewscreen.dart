@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mindfulme_app/common_widget/tab_button.dart';
-import 'package:mindfulme_app/screen/main_home.dart';
+import 'package:mindfulme_app/screen/home_page.dart';
 import 'package:mindfulme_app/feature/mindful_page.dart';
 import 'package:mindfulme_app/feature/twenty_page.dart';
 

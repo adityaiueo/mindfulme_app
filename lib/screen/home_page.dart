@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:appcheck/appcheck.dart';
-import 'package:mindfulme_app/feature/mindful_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/services.dart';
 import 'package:usage_stats/usage_stats.dart';
@@ -29,7 +28,7 @@ class _MainHomeState extends State<MainHome> {
     _prefs = await SharedPreferences.getInstance();
   }
 
-  //TODO : Ini harusnyaa di main.dartt atau di background_servicenyaa, atau disini aja ya buat dapetin list app ke download? tapi harus cari
+  //TODO : Ini harusnyaa di main.dartt atau di BACKGROUND SERVICE DEH, and BG SERVICE CLASS NYA DI MAIN? ya, eh tapi kan di main udah manggil bg service, atau disini aja ya buat dapetin list app ke download? tapi harus cari
   //TODO : harus cari cara sih buat biar bisa mindahin ini ke main
   Future<void> _openMindfulPageIfNeeded() async {
     // Membuka halaman MindfulPage jika kondisi terpenuhi
@@ -37,21 +36,43 @@ class _MainHomeState extends State<MainHome> {
     // dan sudah dicentang dalam daftar aplikasi yang dipilih sebelumnya
     bool shouldOpen = await _checkSelectedAppUsage();
     if (shouldOpen) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const MindfulPage()),
-      );
+      launchMindfulPage();
     }
   }
 
   Future<void> launchMindfulPage() async {
+    const packageName = "com.onesec.app";
     const String url =
-        'your_url_here';
-    final Uri uri = Uri.parse(url); // Ganti dengan URL Anda jika ingin membuka URL tertentu
-    if (await canLaunchUrl(uri.toString())) {
-      await launchUrl(uri.toString());
+        "intent://$packageName/#Intent;scheme=;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end";
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
     } else {
-      throw 'Could not launch $url';
+      throw 'Could not launch $uri';
+    }
+  }
+
+  Future<void> launchTwentyPage() async {
+    const packageName = "com.onesec.app";
+    const String url =
+        "intent://$packageName/#Intent;scheme=package;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end";
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch $uri';
+    }
+  }
+
+  Future<void> launchGoalsetPage() async {
+    const packageName = "com.onesec.app";
+    const String url =
+        "intent://$packageName/#Intent;scheme=package;action=android.intent.action.MAIN;category=android.intent.category.LAUNCHER;end";
+    Uri uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    } else {
+      throw 'Could not launch $uri';
     }
   }
 
