@@ -9,13 +9,13 @@ class RoundTextField extends StatelessWidget {
   final Widget? right;
 
   const RoundTextField({
-    Key? key,
+    super.key,
     required this.hintText,
     this.controller,
     this.keyboardType,
     this.obscureText,
     this.right,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

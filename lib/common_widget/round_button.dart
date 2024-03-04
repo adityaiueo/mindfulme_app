@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mindfulme_app/common/color_extension.dart';
 
 enum RoundButtonType { primary, secondary }
 
@@ -8,11 +9,11 @@ class RoundButton extends StatefulWidget {
   final VoidCallback onPressed;
 
   const RoundButton({
-    Key? key,
+    super.key,
     required this.title,
     this.type = RoundButtonType.primary,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   State<RoundButton> createState() => _RoundButtonState();
@@ -28,10 +29,8 @@ class _RoundButtonState extends State<RoundButton> {
         minWidth: double.maxFinite,
         elevation: 0,
         color: widget.type == RoundButtonType.primary
-            ? Colors
-                .blue // Change TColor to Colors.blue or whatever color you intend to use
-            : Colors
-                .red, // Change TColor to Colors.red or whatever color you intend to use
+            ? Tcolor.primary // Change TColor to Colors.blue or whatever color you intend to use
+            : Tcolor.tertiary, // Change TColor to Colors.red or whatever color you intend to use
         height: 60,
         shape: RoundedRectangleBorder(
           side: BorderSide.none,
@@ -40,7 +39,7 @@ class _RoundButtonState extends State<RoundButton> {
         child: Text(
           widget.title,
           style: TextStyle(
-            color: widget.type == RoundButtonType.primary
+            color: widget.type == RoundButtonType.secondary
                 ? Colors
                     .white // Change TColor to Colors.white or whatever color you intend to use
                 : Colors

@@ -8,14 +8,14 @@ import '../model/items_model.dart';
 import '../utils/colors.dart';
 
 
-class IntroPage extends StatefulWidget {
-  const IntroPage({Key? key}) : super(key: key);
+class IntroPageScreen extends StatefulWidget {
+  const IntroPageScreen({super.key});
 
   @override
-  State<IntroPage> createState() => _HomePageState();
+  State<IntroPageScreen> createState() => _IntroPageScreenState();
 }
 
-class _HomePageState extends State<IntroPage> {
+class _IntroPageScreenState extends State<IntroPageScreen> {
   PageController pageController = PageController(initialPage: 0);
   int currentIndex = 0;
 

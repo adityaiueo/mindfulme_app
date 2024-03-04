@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MindfulPage extends StatefulWidget {
-  const MindfulPage({Key? key}) : super(key: key);
+  const MindfulPage({super.key});
 
   @override
-  _MindfulPageState createState() => _MindfulPageState();
+  MindfulPageState createState() => MindfulPageState();
 }
 
-class _MindfulPageState extends State<MindfulPage>
+class MindfulPageState extends State<MindfulPage>
     with TickerProviderStateMixin {
   late AnimationController _controller;
 

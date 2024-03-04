@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mindfulme_app/screen/home_page.dart';
+import 'package:mindfulme_app/screen/homepage_screen.dart';
 import 'package:mindfulme_app/utils/colors.dart';
 
 class GetStartBtn extends StatefulWidget {
   const GetStartBtn({
-    Key? key,
+    super.key,
     required this.size,
     required this.textTheme,
-  }) : super(key: key);
+  });
 
   final Size size;
   final TextTheme textTheme;
@@ -26,7 +26,7 @@ class _GetStartBtnState extends State<GetStartBtn> {
       Future.delayed(const Duration(seconds: 2)).then((value) {
         isLoading = false;
         Navigator.pushReplacement(
-            context, CupertinoPageRoute(builder: (_) => const MainHome()));
+            context, CupertinoPageRoute(builder: (_) => const HomePage()));
       });
     });
   }
@@ -61,11 +61,11 @@ class _GetStartBtnState extends State<GetStartBtn> {
 
 class SkipBtn extends StatelessWidget {
   const SkipBtn({
-    Key? key,
+    super.key,
     required this.size,
     required this.textTheme,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final Size size;
   final TextTheme textTheme;

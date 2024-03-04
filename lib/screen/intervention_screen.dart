@@ -83,7 +83,7 @@ class InterventionScreenState extends State<InterventionScreen> {
   }
 
   Future<int?> showDurationPickerDialog(BuildContext context) async {
-    int? selectedDuration = 1; // Default selected duration
+    int? selectedDuration = 15; // Default selected duration
 
     return showDialog<int>(
       context: context,
@@ -104,7 +104,7 @@ class InterventionScreenState extends State<InterventionScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Choose breathing duration (in seconds):',
+                    'Choose breathing duration (seconds):',
                     style: TextStyle(
                       color: Tcolor.primaryText,
                       fontSize: 16,
@@ -205,6 +205,7 @@ class InterventionScreenState extends State<InterventionScreen> {
                         color: Tcolor.primaryText,
                         fontSize: 34,
                         fontWeight: FontWeight.w700,
+                        fontFamily: 'Helvetica'
                       ),
                     ),
                     const SizedBox(
@@ -241,6 +242,7 @@ class InterventionScreenState extends State<InterventionScreen> {
                         color: Tcolor.primaryText,
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
+                        fontFamily: 'Helvetica'
                       ),
                     )
                   ],
@@ -278,6 +280,7 @@ class InterventionScreenState extends State<InterventionScreen> {
                                       color: Tcolor.primaryText,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
+                                      fontFamily: 'Helvetica'
                                     ),
                                   ),
                                 ],
@@ -313,6 +316,7 @@ class InterventionScreenState extends State<InterventionScreen> {
                                       color: Tcolor.primaryText,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,
+                                      fontFamily: 'Helvetica'
                                     ),
                                   ),
                                 ],

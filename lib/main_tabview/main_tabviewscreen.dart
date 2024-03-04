@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mindfulme_app/common_widget/tab_button.dart';
-import 'package:mindfulme_app/screen/home_page.dart';
-import 'package:mindfulme_app/feature/mindful_page.dart';
-import 'package:mindfulme_app/feature/twenty_page.dart';
+import 'package:mindfulme_app/screen/homepage_screen.dart';
+import 'package:mindfulme_app/screen/intervention_screen.dart';
 
 class MainTabViewScreen extends StatefulWidget {
   const MainTabViewScreen({super.key});
@@ -11,7 +10,8 @@ class MainTabViewScreen extends StatefulWidget {
   State<MainTabViewScreen> createState() => _MainTabViewScreenState();
 }
 
-class _MainTabViewScreenState extends State<MainTabViewScreen>  with SingleTickerProviderStateMixin {
+class _MainTabViewScreenState extends State<MainTabViewScreen>
+    with SingleTickerProviderStateMixin {
   TabController? controller;
   int selectTab = 0;
 
@@ -29,9 +29,8 @@ class _MainTabViewScreenState extends State<MainTabViewScreen>  with SingleTicke
   Widget build(BuildContext context) {
     return Scaffold(
       body: TabBarView(controller: controller, children: const [
-        MainHome(),
-        MindfulPage(),
-        TwentyPage(),
+        HomePage(),
+        InterventionScreen(),
       ]),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.only(top: 15),
@@ -51,18 +50,11 @@ class _MainTabViewScreenState extends State<MainTabViewScreen>  with SingleTicke
                 }),
             TabButton(
                 icon: "assets/img/apps.png",
-                title: "Mindfulness",
+                title: "Intervention",
                 isSelect: selectTab == 1,
                 onPressed: () {
                   changeTab(1);
                 }),
-            TabButton(
-                icon: "assets/img/eye.png",
-                title: "20-20-20",
-                isSelect: selectTab == 2,
-                onPressed: () {
-                  changeTab(2);
-                })
           ],
         )),
       ),

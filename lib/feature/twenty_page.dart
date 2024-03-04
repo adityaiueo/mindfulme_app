@@ -2,16 +2,17 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:mindfulme_app/common/color_extension.dart';
 import 'package:mindfulme_app/common_widget/round_button.dart';
 
 class TwentyPage extends StatefulWidget {
   const TwentyPage({super.key});
 
   @override
-  _TwentyPageState createState() => _TwentyPageState();
+  TwentyPageState createState() => TwentyPageState();
 }
 
-class _TwentyPageState extends State<TwentyPage>
+class TwentyPageState extends State<TwentyPage>
     with SingleTickerProviderStateMixin {
   int _countdownSeconds = 20;
   bool _isCountdownFinished = false;
@@ -56,19 +57,29 @@ class _TwentyPageState extends State<TwentyPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Twenty Page'),
+        title: const Text('20-20-20 Rule'),
+        backgroundColor: Tcolor.primary, // Warna dominan
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            AnimatedOpacity(
-              opacity: _fadeAnimation.value,
-              duration: const Duration(seconds: 2),
-              child: const Text(
-                'Kamu sudah menatap layar selama 20 menit, ayo istirahatkan matamu selama 20 detik.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20),
+            FadeTransition(
+              opacity: _fadeAnimation,
+              child: Container(
+                padding: const EdgeInsets.all(20),
+                color: Tcolor.secondary, // Warna sekunder
+                child: Text(
+                  'Kamu sudah menatap layar selama 20 menit, ayo istirahatkan matamu selama 20 detik.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Tcolor.primaryTextW,
+                    fontFamily: 'Helvetica',
+                    fontWeight:
+                        FontWeight.w700, // Warna teks utama di atas warna gelap
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -78,23 +89,30 @@ class _TwentyPageState extends State<TwentyPage>
                     children: [
                       Text(
                         '$_countdownSeconds detik',
-                        style: const TextStyle(fontSize: 40),
+                        style: TextStyle(
+                          fontSize: 40,
+                          color: Tcolor
+                              .primaryTextW, // Warna teks utama di atas warna gelap
+                        ),
                       ),
                       const SizedBox(height: 20),
                       // Gunakan RoundButton untuk tombol "Lanjut"
                       RoundButton(
-                        title: 'Lanjut',
+                        title: 'Continue',
+                        type: RoundButtonType
+                            .primary, // Sesuaikan dengan tipe tombol yang diinginkan
                         onPressed: () {
-                          // Implement your action here to close the page
+                          // Implement your action here to handle button tap
                           Navigator.of(context).pop();
                         },
-                      ),
+                      )
                     ],
                   )
                 : const SizedBox(),
           ],
         ),
       ),
+      backgroundColor: Tcolor.txtBG, // Warna latar belakang teks
     );
   }
 }

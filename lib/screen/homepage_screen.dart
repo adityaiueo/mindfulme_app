@@ -19,6 +19,7 @@ class HomePageState extends State<HomePage> {
   List<AppInfo>? _installedApps;
   late SharedPreferences
       _prefs; // Variabel untuk menyimpan instance SharedPreferences
+  final List<bool> _isChecked = [];
 
   @override
   void initState() {
@@ -159,30 +160,46 @@ class HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Installed Apps'),
       ),
-      body: _installedApps != null
-          ? ListView.builder(
-              itemCount: _installedApps!.length,
-              itemBuilder: (context, index) {
-                // Mendapatkan nilai checkbox dari SharedPreferences
-                bool isChecked = _prefs.getBool('app_$index') ?? false;
-                return ListTile(
-                  title: Text(_installedApps![index].appName!),
-                  trailing: Checkbox(
-                    value: isChecked,
-                    onChanged: (value) {
-                      setState(() {
-                        isChecked = value!;
-                        // Simpan status checkbox ke SharedPreferences saat diubah
-                        saveCheckboxState(index, isChecked);
-                      });
-                    },
-                  ),
-                );
-              },
-            )
-          : const Center(
-              child: CircularProgressIndicator(),
+      body: ListView.builder(
+        itemCount: _installedApps!.length,
+        itemBuilder: (context, index) {
+          return Container(
+            // Tambahkan margin untuk memberi jarak antara item
+            margin: const EdgeInsets.all(8),
+            // Tambahkan decoration untuk memberi border, warna, dan bayangan
+            decoration: BoxDecoration(
+              // Tambahkan border berwarna ungu dengan sudut yang rounded
+              border: Border.all(color: Colors.purple, width: 2),
+              borderRadius: BorderRadius.circular(10),
+              // Tambahkan warna semi transparan berwarna ungu
+              color: Colors.purple.withOpacity(0.2),
+              // Tambahkan bayangan dengan warna ungu
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.purple.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 4,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
+            child: ListTile(
+              // Tambahkan gambar yang mewakili aplikasi di bagian awal ListTile
+              leading: Image.asset(_installedApps![index].appName ?? ''),
+              title: Text(_installedApps![index].appName ?? ''),
+              trailing: Checkbox(
+                value: _isChecked[index],
+                onChanged: (value) {
+                  setState(() {
+                    _isChecked[index] = value!;
+                    saveCheckboxState(index, value);
+                  });
+                },
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
