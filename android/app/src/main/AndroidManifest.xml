@@ -11,6 +11,8 @@
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_SPECIAL_USE" />
 
     <queries>
         <package android:name="${applicationId}" />
@@ -76,9 +78,11 @@
             
 
         </activity>
-        <service android:name="id.flutter.flutter_background_service.BackgroundService" 
-            android:foregroundServiceType="specialUse|location|dataSync"
-            tools:replace="android:foregroundServiceType">
+        <service 
+            android:name="id.flutter.flutter_background_service.BackgroundService" 
+            android:foregroundServiceType="specialUse|location">
+            <property android:name="android.app.PROPERTY_SPECIAL_USE_FGS_SUBTYPE"
+                android:value="explanation_for_special_use"/>
         </service>
 
     </application>
