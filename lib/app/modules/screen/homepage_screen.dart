@@ -25,10 +25,6 @@ class HomePage extends StatefulWidget {
 
 class HomePageState extends State<HomePage> {
   final Logger logger = Logger();
-
-  List<bool> isChecked = [];
-  late SharedPreferences prefs;
-  Future<List<Application>?>? socialAppsFuture;
   late BuildContext _context;
 
   // Function to check permissions
@@ -116,56 +112,6 @@ class HomePageState extends State<HomePage> {
     }
   }
 
-  List<Application>? socialApps = [];
-
-  Future<List<Application>?> loadSocialApps() async {
-    try {
-      final apps = await DeviceApps.getInstalledApplications(
-        includeAppIcons: true,
-        includeSystemApps: true,
-        onlyAppsWithLaunchIntent: true,
-      );
-
-      socialApps = apps
-          .where((app) => [
-                'Instagram',
-                'Facebook',
-                'Twitter',
-                'WhatsApp',
-                'Snapchat',
-                'LinkedIn',
-                'YouTube',
-                'Tik Tok'
-              ].contains(app.appName))
-          .toList();
-
-      logger.d('Finished loading social apps : $socialApps');
-
-      return socialApps;
-    } catch (e) {
-      logger.e('Error in loadSocialApps(): $e');
-      return null;
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    socialAppsFuture = loadSocialApps();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await loadCheckboxState();
-    });
-    _context = context;
-    checkPermissions();
-    initializeData();
-  }
-
-  Future<void> initializeData() async {
-    await loadCheckboxState();
-    await socialAppsFuture;
-    await loadSocialApps();
-  }
-
   Future<bool> openTwentyPageIfNeeded() async {
     String runningApp = await getRunningApp();
     if (runningApp.isEmpty) return false;
@@ -173,7 +119,7 @@ class HomePageState extends State<HomePage> {
     int selectedIndex = await getSelectedAppIndex();
     if (selectedIndex == -1) return false;
 
-    if (socialApps![selectedIndex].appName == runningApp) {
+    if (socialApps[selectedIndex].appName == runningApp) {
       // Memeriksa waktu penggunaan aplikasi
       DateTime endTime = DateTime.now();
       DateTime startTime = endTime.subtract(const Duration(minutes: 15));
@@ -208,7 +154,7 @@ class HomePageState extends State<HomePage> {
     }
 
     // Memeriksa apakah aplikasi yang dipilih sama dengan aplikasi yang berjalan
-    if (socialApps![selectedIndex].appName == runningApp) {
+    if (socialApps[selectedIndex].appName == runningApp) {
       // Memeriksa waktu penggunaan aplikasi
       DateTime endTime = DateTime.now();
       DateTime startTime = endTime.subtract(const Duration(minutes: 15));
@@ -257,7 +203,7 @@ class HomePageState extends State<HomePage> {
     if (selectedIndex == -1) return false;
 
     // Memeriksa apakah aplikasi yang dipilih sama dengan aplikasi yang berjalan
-    if (socialApps![selectedIndex].appName == runningApp) {
+    if (socialApps[selectedIndex].appName == runningApp) {
       // Memeriksa waktu penggunaan aplikasi
       DateTime endTime = DateTime.now();
       DateTime startTime = endTime.subtract(Duration(minutes: launchTime));
@@ -291,14 +237,6 @@ class HomePageState extends State<HomePage> {
       logger.d(e.message);
       return '';
     }
-  }
-
-  Future<int> getSelectedAppIndex() async {
-    for (int i = 0; i < socialApps!.length; i++) {
-      bool isChecked = prefs.getBool('app_$i') ?? false;
-      if (isChecked) return i;
-    }
-    return -1;
   }
 
   Future<String> getUsageTime() async {
@@ -383,34 +321,104 @@ class HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> loadCheckboxState() async {
+  Future<int> getSelectedAppIndex() async {
+    for (int i = 0; i < socialApps.length; i++) {
+      bool isChecked = appPrefs.getBool('app_$i') ?? false;
+      if (isChecked) return i;
+    }
+    return -1;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    socialAppsFuture = loadSocialApps();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await loadCheckboxState();
+    });
+    _context = context;
+    checkPermissions();
+    initializeData();
+  }
+
+  Future<void> initializeData() async {
+    appPrefs = await SharedPreferences.getInstance();
+    await loadCheckboxState();
+    await loadSocialApps();
+  }
+
+  Future<List<Application>?>? socialAppsFuture;
+
+  List<Application> socialApps = [];
+
+  List<bool> isChecked = [];
+
+  Future<List<Application>?> loadSocialApps() async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
+      final loadedSocialApps = await DeviceApps.getInstalledApplications(
+        includeAppIcons: true,
+        includeSystemApps: true,
+        onlyAppsWithLaunchIntent: true,
+      );
+
+      socialApps = loadedSocialApps
+          .where((app) => [
+                'Instagram',
+                'Facebook',
+                'Twitter',
+                'WhatsApp',
+                'Snapchat',
+                'LinkedIn',
+                'YouTube',
+                'Tik Tok'
+              ].contains(app.appName))
+          .toList();
+
+      setState(() {});
+
+      isChecked = await loadCheckboxState();
+
+      logger.d('Finished loading social apps : $socialApps');
+
+      return socialApps;
+    } catch (e) {
+      logger.e('Error in loadSocialApps(): $e');
+      return null;
+    }
+  }
+
+  late SharedPreferences appPrefs;
+  //Untuk memuat atau mengambil status checkbox yang telah disimpan sebelumnya dari SharedPreferences. Fungsi ini dipanggil saat aplikasi dimulai (di initState
+  //mengatur nilai awal dari setiap checkbox berdasarkan status yang disimpan sebelumnya.
+  Future<List<bool>> loadCheckboxState() async {
+    try {
       List<bool> savedState = [];
-      for (int i = 0; i < socialApps!.length; i++) {
-        bool? value = prefs.getBool(socialApps![i].appName);
+      for (int i = 0; i < socialApps.length; i++) {
+        bool? value = appPrefs.getBool(socialApps[i].appName);
         logger.d("the value is : $value");
         if (value != null) {
           savedState.add(value);
+        } else {
+          //kalo null value checkboxnya
+          savedState.add(true);
         }
       }
-      setState(() {
-        isChecked = savedState;
-      });
-      logger.d('Loaded checkbox state: $isChecked');
+      logger.d('Loaded checkbox state: $savedState');
+      return savedState;
     } catch (e) {
       logger.e('Error in loadCheckboxState(): $e');
+      return List.generate(socialApps.length,
+          (index) => true); // return default value in case of error
     }
   }
 
   Future<void> saveCheckboxState(int index, bool value) async {
     try {
       if (index < isChecked.length) {
-        if (socialApps != null && socialApps!.isNotEmpty) {
-          if (index >= 0 && index < socialApps!.length) {
+        if (socialApps.isNotEmpty) {
+          if (index >= 0 && index < socialApps.length) {
             isChecked[index] = value;
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            await prefs.setBool(socialApps![index].appName, isChecked[index]);
+            await appPrefs.setBool(socialApps[index].appName, isChecked[index]);
             //                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
             // Memperbaiki agar nilai isChecked disimpan, bukan nilai baru dari argumen value
             logger.d('Saved checkbox state: ${isChecked[index]}');
@@ -459,9 +467,9 @@ class HomePageState extends State<HomePage> {
               return Center(child: Text('Error: ${snapshot.error}'));
             } else {
               List<Application>? socialApps = snapshot.data!;
-              isChecked = List.generate(socialApps.length, (index) => true);
               //! builder
               return ListView.separated(
+                shrinkWrap: true,
                 itemCount: socialApps.length,
                 itemBuilder: (BuildContext context, int index) {
                   final app = socialApps[index];
