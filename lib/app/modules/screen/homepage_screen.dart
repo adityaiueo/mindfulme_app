@@ -456,6 +456,7 @@ class HomePageState extends State<HomePage> {
           bottomRight: Radius.circular(15),
         )),
       ),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 255),
       body: Padding(
         padding: const EdgeInsets.all(15),
         child: FutureBuilder<List<Application>?>(
@@ -473,12 +474,18 @@ class HomePageState extends State<HomePage> {
                 itemCount: socialApps.length,
                 itemBuilder: (BuildContext context, int index) {
                   final app = socialApps[index];
-
+                  //! the box
                   return Container(
                     padding: const EdgeInsets.all(15),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.white,
+                      border: Border.all(
+                        color: const Color.fromARGB(255, 229, 229,
+                            229), // Ubah dengan warna yang diinginkan
+                        width: 1,
+                        style: BorderStyle.solid,
+                      ),
                       boxShadow: [
                         BoxShadow(
                           color: const Color(0xFF35385A).withOpacity(.12),
@@ -515,7 +522,8 @@ class HomePageState extends State<HomePage> {
                                           app.appName,
                                           style: GoogleFonts.manrope(
                                             textStyle: const TextStyle(
-                                              color: Colors.black,
+                                              color: Color.fromARGB(
+                                                  255, 56, 56, 56),
                                               fontSize: 17,
                                               fontWeight: FontWeight.w600,
                                             ),
@@ -570,7 +578,7 @@ class HomePageState extends State<HomePage> {
                               child: AnimatedContainer(
                                 height: 35,
                                 padding: const EdgeInsets.all(5),
-                                duration: const Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 100),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
