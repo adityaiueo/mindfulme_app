@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:mindfulme_app/app/modules/details%20screen/goalset_detail_screen.dart';
 import 'package:mindfulme_app/app/modules/details%20screen/mindfulness_detail_screen.dart';
 import 'package:mindfulme_app/app/modules/details%20screen/twenty_detail_screen.dart';
@@ -33,7 +34,7 @@ Future<void> main() async {
         channelKey: 'reminder_channel',
         channelName: 'Reminder Channel',
         channelDescription: 'Channel for reminder notifications',
-        defaultColor: const Color.fromARGB(255, 175, 111, 186),
+        defaultColor: const Color.fromARGB(255, 255, 255, 255),
         ledColor: Colors.white,
       ),
     ],
@@ -48,26 +49,24 @@ Future<void> main() async {
       builder: (context) => const MyApp(),
     ),
   );
-
-  HomePageState homePageState = HomePageState();
-  bool shouldOpenMindfulPage = await homePageState.openMindfulPageIfNeeded();
-  bool shouldOpenTwentyPage = await homePageState.openTwentyPageIfNeeded();
-  bool shouldOpenGoalset = await homePageState.openGoalsetPageIfNeeded();
-
-  if (shouldOpenMindfulPage) {
-    FlutterBackgroundService().invoke("openPage", {"page": "/mindful"});
-  } 
-  if (shouldOpenTwentyPage) {
-    FlutterBackgroundService().invoke("openPage", {"page": "/twenty"});
-  } 
-  if (shouldOpenGoalset) {
-    FlutterBackgroundService().invoke("openPage", {"page": "/goalset"});
-  }
 }
 
 Future<void> initializeService() async {
   final service = FlutterBackgroundService();
   DartPluginRegistrant.ensureInitialized();
+
+  AwesomeNotifications().initialize(
+    'resource://drawable/goalset',
+    [
+      NotificationChannel(
+        channelKey: 'reminder_channel',
+        channelName: 'Reminder Channel',
+        channelDescription: 'Channel for reminder notifications',
+        defaultColor: const Color.fromARGB(255, 255, 255, 255),
+        ledColor: Colors.white,
+      ),
+    ],
+  );
 
   await service.configure(
     androidConfiguration: AndroidConfiguration(
@@ -94,19 +93,37 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
   DartPluginRegistrant.ensureInitialized();
-  final logger = Logger('UrlDeepLinkLauncher');
 
-  service.on("openPage").listen((event) async {
-    String page = event!["page"];
-    String url = 'mindfulme-app://open.mindfulme.app/$page';
-    Uri uri = Uri.parse(url);
+  if (service is AndroidServiceInstance) {
+    service.on('setAsForeground').listen((event) {
+      service.setAsForegroundService();
+    });
 
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } else {
-      logger.warning('Could not launch $url');
-    }
+    service.on('setAsBackground').listen((event) {
+      service.setAsBackgroundService();
+    });
+  }
+
+  service.on('stopService').listen((event) {
+    service.stopSelf();
   });
+
+  HomePageState homePageState = HomePageState();
+  bool shouldOpenMindfulPage = await homePageState.openMindfulPageIfNeeded();
+  bool shouldOpenTwentyPage = await homePageState.openTwentyPageIfNeeded();
+  bool shouldOpenGoalset = await homePageState.openGoalsetPageIfNeeded();
+
+  if (shouldOpenMindfulPage) {
+    service.invoke("openPage", {"page": "/mindful"});
+  }
+  if (shouldOpenTwentyPage) {
+    service.invoke("openPage", {"page": "/twenty"});
+  }
+  if (shouldOpenGoalset) {
+    service.invoke("openPage", {"page": "/goalset"});
+  }
+
+  Logger.detached('FLUTTER BACKGROUND SERVICE: ${DateTime.now()}');
 }
 
 class MyApp extends StatefulWidget {
@@ -119,6 +136,8 @@ class MyApp extends StatefulWidget {
 class MyAppState extends State<MyApp> {
   late final GoRouter _router;
   StreamSubscription? _sub;
+
+  final logger = Logger('UrlDeepLinkLauncher');
 
   void _handleIncomingLink(Uri uri) {
     // Parse the link and navigate to the correct screen using GoRouter
@@ -149,20 +168,32 @@ class MyAppState extends State<MyApp> {
         _router.go('/intervention');
         break;
       default:
-        // Handle unknown paths, such as showing an error or redirecting to home
         _router.go('/');
     }
   }
 
   @override
   void initState() {
+    super.initState();
     _sub = uriLinkStream.listen((Uri? uri) {
       if (uri != null) {
         _handleIncomingLink(uri);
       }
     }, onError: (err) {
-      // Handle error here, such as by displaying a notification
+      logger.warning(err);
     });
+
+    _sub = FlutterBackgroundService().on('openPage').listen((event) async {
+      String page = event!["page"];
+      String url = 'mindfulme-app://open.mindfulme.app/$page';
+      Uri uri = Uri.parse(url);
+      if (await canLaunchUrl(uri)) {
+        await launchUrl(uri, mode: LaunchMode.externalApplication);
+      } else {
+        logger.warning('Could not launch $url');
+      }
+    });
+
     _router = GoRouter(
       initialLocation: '/',
       routes: <RouteBase>[
