@@ -333,9 +333,6 @@ class HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     socialAppsFuture = loadSocialApps();
-    WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await loadCheckboxState();
-    });
     _context = context;
     checkPermissions();
     initializeData();
@@ -343,7 +340,6 @@ class HomePageState extends State<HomePage> {
 
   Future<void> initializeData() async {
     appPrefs = await SharedPreferences.getInstance();
-    await loadCheckboxState();
     await loadSocialApps();
   }
 
@@ -374,8 +370,6 @@ class HomePageState extends State<HomePage> {
               ].contains(app.appName))
           .toList();
 
-      setState(() {});
-
       isChecked = await loadCheckboxState();
 
       logger.d('Finished loading social apps : $socialApps');
@@ -395,7 +389,6 @@ class HomePageState extends State<HomePage> {
       List<bool> savedState = [];
       for (int i = 0; i < socialApps.length; i++) {
         bool? value = appPrefs.getBool(socialApps[i].appName);
-        logger.d("the value is : $value");
         if (value != null) {
           savedState.add(value);
         } else {
