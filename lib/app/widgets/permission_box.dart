@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:mindfulme_app/common/color_extension.dart';
-import 'package:mindfulme_app/common_widget/custom_snackbar.dart';
+import 'package:mindfulme_app/app/common/color_extension.dart';
+import 'package:mindfulme_app/app/widgets/custom_snackbar.dart';
 
 class PermissionBox extends StatelessWidget {
   final String imagePath;
   final String message;
-  final Function onContinuePressed;
+  final Function? onContinuePressed;
 
   const PermissionBox({
     super.key,
     required this.imagePath,
     required this.message,
-    required this.onContinuePressed,
+    this.onContinuePressed,
   });
 
   @override
@@ -99,8 +99,9 @@ class PermissionBox extends StatelessWidget {
                     ),
                     TextButton(
                       onPressed: () {
+                        Navigator.of(context).pop();
                         // Handle "Continue" button press
-                        onContinuePressed();
+                        onContinuePressed!();
                       },
                       child: Text(
                         'Continue',

@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<!-- You can name this style whatever you'd like -->
+    <style name="LaunchTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
+    <!-- You can name this style whatever you'd like -->
+    <style name="NormalTheme" parent="@android:style/Theme.Black.NoTitleBar">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
     <item>
         <bitmap android:gravity="fill" android:src="@drawable/background"/>
     </item>

@@ -1,22 +1,33 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
-import 'package:mindfulme_app/common_widget/permission_box.dart';
-import 'package:mindfulme_app/feature/goalset_page.dart';
-import 'package:mindfulme_app/feature/mindful_page.dart';
-import 'package:mindfulme_app/feature/twenty_page.dart';
-import 'package:mindfulme_app/main_tabview/main_tabviewscreen.dart';
-import 'package:mindfulme_app/utils/notification_controller.dart';
-import 'package:mindfulme_app/utils/background_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:mindfulme_app/screen/intro_page.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:mindfulme_app/app/modules/details%20screen/goalset_detail_screen.dart';
+import 'package:mindfulme_app/app/modules/details%20screen/mindfulness_detail_screen.dart';
+import 'package:mindfulme_app/app/modules/details%20screen/twenty_detail_screen.dart';
+import 'package:mindfulme_app/app/modules/feature_page/goalset_page.dart';
+import 'package:mindfulme_app/app/modules/feature_page/mindful_page.dart';
+import 'package:mindfulme_app/app/modules/feature_page/twenty_page.dart';
+import 'package:mindfulme_app/app/modules/screen/homepage_screen.dart';
+import 'package:mindfulme_app/app/modules/screen/intervention_screen.dart';
+import 'package:mindfulme_app/app/modules/screen/main_tabviewscreen.dart';
+import 'package:mindfulme_app/app/utils/notification_controller.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import 'package:logging/logging.dart';
+
+import 'dart:async';
+import 'package:uni_links/uni_links.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeService();
 
   AwesomeNotifications().initialize(
-    'resource', //! Icon aplikasi
+    'resource://drawable/goalset',
     [
       NotificationChannel(
         channelKey: 'reminder_channel',
@@ -28,31 +39,184 @@ Future<void> main() async {
     ],
   );
 
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  bool isIntroShown = prefs.getBool('isIntroShown') ?? false;
-
   runApp(
     DevicePreview(
-      enabled: true,
+      enabled: false,
       tools: const [
         ...DevicePreview.defaultTools,
       ],
-      builder: (context) => MyApp(isIntroShown: isIntroShown),
+      builder: (context) => const MyApp(),
+    ),
+  );
+
+  HomePageState homePageState = HomePageState();
+  bool shouldOpenMindfulPage = await homePageState.openMindfulPageIfNeeded();
+  bool shouldOpenTwentyPage = await homePageState.openTwentyPageIfNeeded();
+  bool shouldOpenGoalset = await homePageState.openGoalsetPageIfNeeded();
+
+  if (shouldOpenMindfulPage) {
+    FlutterBackgroundService().invoke("openPage", {"page": "/mindful"});
+  } 
+  if (shouldOpenTwentyPage) {
+    FlutterBackgroundService().invoke("openPage", {"page": "/twenty"});
+  } 
+  if (shouldOpenGoalset) {
+    FlutterBackgroundService().invoke("openPage", {"page": "/goalset"});
+  }
+}
+
+Future<void> initializeService() async {
+  final service = FlutterBackgroundService();
+  DartPluginRegistrant.ensureInitialized();
+
+  await service.configure(
+    androidConfiguration: AndroidConfiguration(
+      onStart: onStart,
+      autoStart: true,
+      isForegroundMode: true,
+    ),
+    iosConfiguration: IosConfiguration(
+      autoStart: true,
+      onForeground: onStart,
+      onBackground: onIosBackground,
     ),
   );
 }
 
+@pragma('vm:entry-point')
+Future<bool> onIosBackground(ServiceInstance service) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  DartPluginRegistrant.ensureInitialized();
+
+  return true;
+}
+
+@pragma('vm:entry-point')
+void onStart(ServiceInstance service) async {
+  DartPluginRegistrant.ensureInitialized();
+  final logger = Logger('UrlDeepLinkLauncher');
+
+  service.on("openPage").listen((event) async {
+    String page = event!["page"];
+    String url = 'mindfulme-app://open.mindfulme.app/$page';
+    Uri uri = Uri.parse(url);
+
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      logger.warning('Could not launch $url');
+    }
+  });
+}
+
 class MyApp extends StatefulWidget {
-  final bool isIntroShown;
-  const MyApp({super.key, required this.isIntroShown});
+  const MyApp({super.key});
 
   @override
   MyAppState createState() => MyAppState();
 }
 
 class MyAppState extends State<MyApp> {
+  late final GoRouter _router;
+  StreamSubscription? _sub;
+
+  void _handleIncomingLink(Uri uri) {
+    // Parse the link and navigate to the correct screen using GoRouter
+    Logger.detached('uri nya : $uri');
+    switch (uri.path) {
+      case '/':
+        _router.go('/');
+        break;
+      case '/goalset':
+        _router.go('/goalset');
+        break;
+      case '/mindful':
+        _router.go('/mindful');
+        break;
+      case '/twenty':
+        _router.go('/twenty');
+        break;
+      case '/twentyd':
+        _router.go('/twentyd');
+        break;
+      case '/mindfuld':
+        _router.go('/mindfuld');
+        break;
+      case '/goalsetd':
+        _router.go('/goalsetd');
+        break;
+      case '/intervention':
+        _router.go('/intervention');
+        break;
+      default:
+        // Handle unknown paths, such as showing an error or redirecting to home
+        _router.go('/');
+    }
+  }
+
   @override
   void initState() {
+    _sub = uriLinkStream.listen((Uri? uri) {
+      if (uri != null) {
+        _handleIncomingLink(uri);
+      }
+    }, onError: (err) {
+      // Handle error here, such as by displaying a notification
+    });
+    _router = GoRouter(
+      initialLocation: '/',
+      routes: <RouteBase>[
+        GoRoute(
+          path: '/',
+          builder: (context, state) {
+            return const MainTabViewScreen();
+          },
+        ),
+        GoRoute(
+          path: '/goalset',
+          builder: (context, state) {
+            return const GoalSetting();
+          },
+        ),
+        GoRoute(
+          path: '/mindful',
+          builder: (context, state) {
+            return const MindfulPage();
+          },
+        ),
+        GoRoute(
+          path: '/twenty',
+          builder: (context, state) {
+            return const TwentyPage();
+          },
+        ),
+        GoRoute(
+          path: '/twentyd',
+          builder: (context, state) {
+            return const TwentyDetailScreen();
+          },
+        ),
+        GoRoute(
+          path: '/mindfuld',
+          builder: (context, state) {
+            return const MindfulnessDetailScreen();
+          },
+        ),
+        GoRoute(
+          path: '/goalsetd',
+          builder: (context, state) {
+            return const GoalsetDetailScreen();
+          },
+        ),
+        GoRoute(
+          path: '/intervention',
+          builder: (context, state) {
+            return const InterventionScreen();
+          },
+        ),
+      ],
+    );
+
     AwesomeNotifications().setListeners(
         onActionReceivedMethod: NotificationController.onActionReceivedMethod,
         onNotificationCreatedMethod:
@@ -65,57 +229,16 @@ class MyAppState extends State<MyApp> {
   }
 
   @override
+  void dispose() {
+    _sub?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Intro Screen',
-      initialRoute: widget.isIntroShown ? 'home' : 'intro',
-      home: widget.isIntroShown
-          ? const MainTabViewScreen()
-          : const IntroPageScreen(),
-
-      //! INI ADALAH RUTE KE PAGENYA
-      routes: {
-        'intro': (context) => const IntroPageScreen(),
-        'home': (context) => const MainTabViewScreen(),
-        '/goalset': (context) => const GoalSetting(),
-        '/mindful': (context) => const MindfulPage(),
-        '/twenty': (context) => const TwentyPage(),
-      },
-      // Buat fungsi untuk menentukan halaman mana yang akan dibuka berdasarkan URL khusus
-      onGenerateRoute: (settings) {
-        // Dapatkan nama path dari URL khusus
-        String path = Uri.parse(settings.name!).path;
-
-        // Gunakan switch case atau if else untuk menentukan halaman mana yang akan dibuka
-        switch (path) {
-          case '/mindful': // Ganti '/page1' dengan '/mindful'
-            return MaterialPageRoute(builder: (context) => const MindfulPage());
-          case '/twenty': // Ganti '/page2' dengan '/twenty'
-            return MaterialPageRoute(builder: (context) => const TwentyPage());
-          case '/goalset': // Tambahkan '/goalset' sebagai case baru
-            return MaterialPageRoute(builder: (context) => const GoalSetting());
-          default:
-            // Halaman default jika path tidak cocok
-            return MaterialPageRoute(
-                builder: (context) => const MainTabViewScreen());
-        }
-      },
-
-      builder: (context, child) {
-        return Scaffold(
-          body: PermissionBox(
-            // Gunakan PermissionBox di luar home
-            imagePath: 'assets/notification_icon.png', // Path ikon notifikasi
-            message: 'This app needs permission to send notifications '
-                'so that you can get the goal settings feature.', // Pesan yang ingin ditampilkan
-            onContinuePressed: () async {
-              await AwesomeNotifications()
-                  .requestPermissionToSendNotifications();
-            },
-          ),
-        );
-      },
+      routerConfig: _router,
     );
   }
 }

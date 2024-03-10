@@ -4,6 +4,66 @@
       "assignedTo": {
         "name": "adityaiueo"
       },
+      "creation_time": "2024-03-08T12:47:49.900Z",
+      "id": "26",
+      "prio": 18,
+      "references": [],
+      "title": "ngebenahin permission box biar bagus, selasa ngumpulin proposal dann app udahh jadiiiii"
+    },
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
+      "creation_time": "2024-03-07T08:50:58.433Z",
+      "id": "24",
+      "prio": 14,
+      "references": [],
+      "title": "NGEBENAHIN HOMEPAGE"
+    },
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
+      "creation_time": "2024-03-07T08:51:10.900Z",
+      "id": "25",
+      "prio": 14,
+      "references": [],
+      "title": "NGEBENAHIN MINDFUL PAGE"
+    },
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
+      "creation_time": "2024-03-07T00:59:48.340Z",
+      "id": "23",
+      "prio": 14,
+      "references": [],
+      "title": "utamakan error?"
+    },
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
+      "creation_time": "2024-03-05T15:12:31.621Z",
+      "id": "21",
+      "prio": 11,
+      "references": [],
+      "title": "ngebuat custom splash screen, munculin permission box, sama ngatur intervention pageeee"
+    },
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
+      "creation_time": "2024-03-06T14:17:23.440Z",
+      "id": "22",
+      "prio": 10,
+      "references": [],
+      "title": "ngebuat ui yang mindful feature kaya yang di part 3 or 2 lupa"
+    },
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
       "creation_time": "2024-03-03T23:31:29.322Z",
       "id": "16",
       "prio": 3,
@@ -63,6 +123,53 @@
       "id": "1",
       "references": [],
       "title": "Ngebuat Introduction SCree"
+    }
+  ],
+  "in-progress": [
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
+      "creation_time": "2024-03-03T08:54:59.223Z",
+      "id": "13",
+      "prio": 10,
+      "references": [],
+      "title": "tinggal ngebuat uiii semuanyaaa, ngeganti imagenyaa wooyy. ngebuat UI HOMEPAGE",
+      "description": {
+        "content": "GANTI APP BAR LOGO JUGA WOYY",
+        "mime": "text/markdown"
+      }
+    },
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
+      "creation_time": "2024-03-05T12:02:20.367Z",
+      "id": "19",
+      "prio": 9,
+      "references": [],
+      "title": "E/flutter (14507): [ERROR:flutter/runtime/dart_vm_initializer.cc(41)] Unhandled Exception: MissingPluginException(No implementation found for method getRunningApps on channel getRunningApps)     E/flutter (14507): #0      MethodChannel._invokeMethod (package:flutter/src/services/platform_channel.dart:332:7) E/flutter (14507): <asynchronous suspension> E/flutter (14507): #1      HomePageState.getRunningApp (package:mindfulme_app/screen/homepage_screen.dart:122:36) E/flutter (14507): <asynchronous suspension> E/flutter (14507): #2      HomePageState.openMindfulPageIfNeeded (package:mindfulme_app/screen/homepage_screen.dart:67:25) E/flutter (14507): <asynchronous suspension> E/flutter (14507): #3      onStart.shouldOpenPage (package:mindfulme_app/utils/background_service.dart:56:34)",
+      "type": "bug"
+    },
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
+      "creation_time": "2024-03-04T10:17:10.161Z",
+      "id": "17",
+      "references": [],
+      "title": "[UPDATE: KOK GA MUNCUL YA?] ngebuat box permission sama ngebenerin dan ngeadjust bener permission",
+      "prio": 9
+    },
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
+      "creation_time": "2024-03-05T01:03:46.437Z",
+      "id": "18",
+      "prio": 6,
+      "references": [],
+      "title": "ada masalah di intro screen, sama mending nganu usage stat app setting,"
     },
     {
       "assignedTo": {
@@ -72,9 +179,19 @@
       "id": "2",
       "references": [],
       "title": "ngebuat uinya main_home page"
+    },
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
+      "creation_time": "2024-03-09T01:31:06.881Z",
+      "id": "27",
+      "prio": 20,
+      "references": [],
+      "title": "kita coba ganti kode channel getrunningapps dulu, trs jua parentdatawidgetnya interventionscreen itu penting"
     }
   ],
-  "in-progress": [
+  "testing": [
     {
       "assignedTo": {
         "name": "adityaiueo"
@@ -89,37 +206,12 @@
       "assignedTo": {
         "name": "adityaiueo"
       },
-      "creation_time": "2024-03-03T12:56:43.144Z",
-      "id": "15",
+      "creation_time": "2024-03-05T12:08:04.155Z",
+      "id": "20",
       "prio": 9,
       "references": [],
-      "title": "NYAMBUNGIN FEATURE SAMA SCREENNYAA (MINDFUL)"
+      "title": "rek launch urlnya goalset feature rekkk"
     },
-    {
-      "assignedTo": {
-        "name": "adityaiueo"
-      },
-      "creation_time": "2024-03-03T08:54:59.223Z",
-      "id": "13",
-      "prio": 5,
-      "references": [],
-      "title": "tinggal ngebuat uiii semuanyaaa, ngeganti imagenyaa wooyy",
-      "description": {
-        "content": "GANTI APP BAR LOGO JUGA WOYY",
-        "mime": "text/markdown"
-      }
-    },
-    {
-      "assignedTo": {
-        "name": "adityaiueo"
-      },
-      "creation_time": "2024-03-04T10:17:10.161Z",
-      "id": "17",
-      "references": [],
-      "title": "ngebuat box permission sama ngebenerin dan ngeadjust bener permission"
-    }
-  ],
-  "testing": [
     {
       "assignedTo": {
         "name": "adityaiueo"
@@ -159,6 +251,16 @@
     }
   ],
   "done": [
+    {
+      "assignedTo": {
+        "name": "adityaiueo"
+      },
+      "creation_time": "2024-03-03T12:56:43.144Z",
+      "id": "15",
+      "prio": 9,
+      "references": [],
+      "title": "NYAMBUNGIN FEATURE SAMA SCREENNYAA (MINDFUL)"
+    },
     {
       "assignedTo": {
         "name": "Aditya Dhafa P"

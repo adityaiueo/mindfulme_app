@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mindfulme_app/common_widget/tab_button.dart';
-import 'package:mindfulme_app/screen/homepage_screen.dart';
-import 'package:mindfulme_app/screen/intervention_screen.dart';
+import 'package:mindfulme_app/app/widgets/tab_button.dart';
+import 'package:mindfulme_app/app/modules/screen/homepage_screen.dart';
+import 'package:mindfulme_app/app/modules/screen/intervention_screen.dart';
 
 class MainTabViewScreen extends StatefulWidget {
   const MainTabViewScreen({super.key});
@@ -18,7 +18,7 @@ class _MainTabViewScreenState extends State<MainTabViewScreen>
   @override
   void initState() {
     super.initState();
-    controller = TabController(length: 5, vsync: this);
+    controller = TabController(length: 2, vsync: this);
     controller?.addListener(() {
       selectTab = controller?.index ?? 0;
       setState(() {});
@@ -33,7 +33,7 @@ class _MainTabViewScreenState extends State<MainTabViewScreen>
         InterventionScreen(),
       ]),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.only(top: 15),
+        padding: const EdgeInsets.only(top: 15, bottom: 10),
         decoration: const BoxDecoration(color: Colors.white, boxShadow: [
           BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, -4))
         ]),
@@ -50,7 +50,7 @@ class _MainTabViewScreenState extends State<MainTabViewScreen>
                 }),
             TabButton(
                 icon: "assets/img/apps.png",
-                title: "Intervention",
+                title: "Interventions",
                 isSelect: selectTab == 1,
                 onPressed: () {
                   changeTab(1);

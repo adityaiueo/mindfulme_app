@@ -20,29 +20,19 @@ class _MindfulPageState extends State<MindfulPage>
   int maxSeconds = 10; // Total time for one breathing cycle
   int currentTime = 0;
 
-  late AnimationController _waveController;
 
   @override
   void initState() {
     super.initState();
-    _waveController = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: maxSeconds),
-    )..addListener(() {
-        setState(() {});
-      });
   }
 
   @override
   void dispose() {
     _timer.cancel();
-    _waveController.dispose();
     super.dispose();
   }
 
   void _startBreathingSequence() {
-    _waveController.reset();
-    _waveController.forward();
     currentTime = 0;
     setState(() {
       _breathingStatus = 'Inhale...';

@@ -2,8 +2,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:mindfulme_app/common/color_extension.dart';
-import 'package:mindfulme_app/common_widget/round_button.dart';
+import 'package:mindfulme_app/app/common/color_extension.dart';
+import 'package:mindfulme_app/app/widgets/round_button.dart';
 
 class TwentyPage extends StatefulWidget {
   const TwentyPage({super.key});

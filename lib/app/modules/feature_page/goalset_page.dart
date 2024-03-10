@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:mindfulme_app/common/color_extension.dart';
-import 'package:mindfulme_app/common_widget/custom_snackbar.dart';
-import 'package:mindfulme_app/common_widget/round_button.dart';
+import 'package:mindfulme_app/app/common/color_extension.dart';
+import 'package:mindfulme_app/app/widgets/custom_snackbar.dart';
+import 'package:mindfulme_app/app/widgets/round_button.dart';
 import 'package:timezone/standalone.dart';
 import 'package:timezone/timezone.dart';
 import 'package:geolocator/geolocator.dart';
@@ -18,6 +18,8 @@ class GoalSetting extends StatefulWidget {
 class GoalSettingState extends State<GoalSetting> {
   int _selectedMinute = 5; // Menit default
   final TextEditingController _controller = TextEditingController();
+
+  int get selectedMinute => _selectedMinute;
 
   Future<Position> _getCurrentLocation() async {
     bool serviceEnabled;

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mindfulme_app/common/color_extension.dart';
+import 'package:mindfulme_app/app/common/color_extension.dart';
 
 class RoundTextField extends StatelessWidget {
   final String hintText;

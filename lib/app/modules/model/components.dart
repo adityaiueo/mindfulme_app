@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:mindfulme_app/screen/homepage_screen.dart';
-import 'package:mindfulme_app/utils/colors.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mindfulme_app/app/utils/colors.dart';
 
 class GetStartBtn extends StatefulWidget {
   const GetStartBtn({
@@ -23,10 +22,13 @@ class _GetStartBtnState extends State<GetStartBtn> {
   loadingHandler() {
     setState(() {
       isLoading = true;
+    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.delayed(const Duration(seconds: 2)).then((value) {
-        isLoading = false;
-        Navigator.pushReplacement(
-            context, CupertinoPageRoute(builder: (_) => const HomePage()));
+        setState(() {
+          isLoading = false;
+          context.go('/');
+        });
       });
     });
   }

@@ -7,13 +7,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mindfulme_app/screen/intervention_screen.dart'; // Ganti dengan lokasi main.dart Anda
+import 'package:mindfulme_app/main.dart';// Ganti dengan lokasi main.dart Anda
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const MaterialApp(
-        home: InterventionScreen())); // Sesuaikan dengan nilai yang Anda inginkan
+        home: MyApp())); // Sesuaikan dengan nilai yang Anda inginkan
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

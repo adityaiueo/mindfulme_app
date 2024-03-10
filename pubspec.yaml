@@ -44,7 +44,6 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   flutter_intro_screen: ^0.0.4
   appcheck: ^1.0.6
-  flutter_native_splash: ^2.3.11
   flutter_local_notifications: ^16.3.2
   timezone: ^0.9.2
   geolocator: ^11.0.0
@@ -60,6 +59,18 @@ dependencies:
   logging: ^1.2.0
   logger: ^2.0.2+1
   awesome_notifications: ^0.8.2
+  app_settings: ^5.1.1
+  flutter_native_splash: ^2.3.13
+  ionicons: ^0.2.2
+  google_fonts: ^6.2.1
+  flutter_feather_icons: ^2.0.0
+  flutter_svg: ^2.0.10+1
+  animations: ^2.0.11
+  wave: ^0.2.2
+  simple_animations: ^5.0.2
+  logging_to_logcat: ^1.0.0
+  flutter_isolate: ^2.0.5-pre
+  flutter_exit_app: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -76,7 +87,7 @@ flutter:
   # the material Icons class.
 
   assets:
-    - assets/
+    - assets/img/
 
   uses-material-design: true
 
@@ -122,5 +133,5 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 flutter_native_splash:
-  color: "#FFFFFF"
-  image: assets\img\home.png
+  color: "#42a5f5"
+  image: assets/img/2.png

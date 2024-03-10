@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -36,11 +37,14 @@
 
         <!-- Deklarasi aktivitas atau komponen lainnya jika ada -->
         <!-- Contoh: <activity android:name=".DetailActivity"/> -->
-        
+        <service android:name="id.flutter.flutter_background_service.BackgroundService" 
+            android:foregroundServiceType="specialUse|location|dataSync"
+            tools:replace="android:foregroundServiceType">
+        <!-- Sisipkan tag-tag lainnya di sini -->
+        </service>
+
     </application>
 
-    <service android:name="id.flutter.flutter_background_service.BackgroundService" android:foregroundServiceType="media|location">
-    <!-- Sisipkan tag-tag lainnya di sini -->
-    </service>
+
 
 </manifest>
