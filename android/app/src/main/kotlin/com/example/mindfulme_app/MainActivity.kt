@@ -17,12 +17,8 @@ import android.app.AppOpsManager
 import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
 
-
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
-
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -31,149 +27,96 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugins.GeneratedPluginRegistrant
 
+import android.accessibilityservice.AccessibilityService
+import android.view.accessibility.AccessibilityEvent
+import android.accessibilityservice.AccessibilityServiceInfo
+
+
+import android.content.ComponentName
+import android.content.pm.ActivityInfo
+import android.os.Build
+import android.util.Log
+
 class MainActivity : FlutterActivity() {
-    
-    private val CHANNEL = "app_usage"
+    private lateinit var accessibilityService: MyAccessibilityService
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // Start the accessibility service
+        val intent = Intent(this, MyAccessibilityService::class.java)
+        startService(intent)
+        accessibilityService = MyAccessibilityService()
+    }
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
-        super.configureFlutterEngine(flutterEngine);
+        super.configureFlutterEngine(flutterEngine)
         GeneratedPluginRegistrant.registerWith(flutterEngine)
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, CHANNEL).setMethodCallHandler { call, result ->
+        // Set up the 'window_change_detecting_service' method channel
+        val windowChangeChannel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, "com.example.window_change_detecting_service")
+        windowChangeChannel.setMethodCallHandler { call, result ->
             when (call.method) {
-                "app" -> {
-                    val foregroundApp = printForegroundTask()
-                    result.success(foregroundApp)
+                "getCurrentActivity" -> {
+                    val currentActivity = accessibilityService.getCurrentActivityPackage()
+                    if (currentActivity != null) {
+                        result.success(currentActivity)
+                    } else {
+                        result.error("UNAVAILABLE", "Current activity not available.", null)
+                    }
                 }
-                "needPermissionForBlocking" -> {
-                    val needPermission = needPermissionForBlocking(context)
-                    result.success(needPermission)
-                }
-                "openUsageAccessSettings" -> {
-                    startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
-                }
-                else -> {
-                    result.notImplemented()
+                else -> result.notImplemented()
+            }
+        }
+    }
+}
+
+class MyAccessibilityService : AccessibilityService() {
+    private var currentAppPackage: String? = null
+
+    override fun onServiceConnected() {
+        super.onServiceConnected()
+
+        // Configure these here for compatibility with API 13 and below.
+        val config = AccessibilityServiceInfo()
+        config.eventTypes = AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+        config.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC
+
+        if (Build.VERSION.SDK_INT >= 16) {
+            // Just in case this helps
+            config.flags = AccessibilityServiceInfo.FLAG_INCLUDE_NOT_IMPORTANT_VIEWS
+        }
+
+        serviceInfo = config
+    }
+
+    override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+        if (event?.eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            if (event.packageName != null && event.className != null) {
+                val componentName = ComponentName(
+                    event.packageName.toString(),
+                    event.className.toString()
+                )
+
+                val activityInfo = tryGetActivity(componentName)
+                val isActivity = activityInfo != null
+                if (isActivity) {
+                    Log.i("CurrentActivity", componentName.flattenToShortString())
+                    currentAppPackage = componentName.packageName
                 }
             }
         }
     }
 
-    private fun needPermissionForBlocking(context: Context): Boolean {
+    private fun tryGetActivity(componentName: ComponentName): ActivityInfo? {
         return try {
-            val packageManager = context.packageManager
-            val applicationInfo = packageManager.getApplicationInfo(context.packageName, 0)
-            val appOpsManager = context.getSystemService(Context.APP_OPS_SERVICE) as AppOpsManager
-            val mode = appOpsManager.checkOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, applicationInfo.uid, applicationInfo.packageName)
-            mode != AppOpsManager.MODE_ALLOWED
+            packageManager.getActivityInfo(componentName, 0)
         } catch (e: PackageManager.NameNotFoundException) {
-            true
+            null
         }
     }
 
-    private fun printForegroundTask(): String {
-        var currentApp = "NULL"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val usm = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
-            val time = System.currentTimeMillis()
-            val usageEvents = usm.queryEvents(time - 1000, time)
-            var event: UsageEvents.Event = UsageEvents.Event()
-            while (usageEvents.hasNextEvent()) {
-                usageEvents.getNextEvent(event)
-                if (event.eventType == UsageEvents.Event.MOVE_TO_FOREGROUND) {
-                    currentApp = event.packageName
-                }
-            }
-        } else {
-            val am = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-            val tasks = am.runningAppProcesses
-            currentApp = tasks[0].processName
-        }
-
-        Log.e("adapter", "Current App in foreground is: $currentApp")
-        return currentApp
+    fun getCurrentActivityPackage(): String? {
+        return currentAppPackage
     }
 
-    private fun handleCustomUri() {
-        // Dummy URI for testing
-        val uri = Uri.parse("mindfulme-app://open.mindfulme.app")
-        val path: String? = uri.path
-
-        // Navigate to the appropriate screen based on the URI path
-        when (path) {
-            "/" -> navigateToMainTabViewScreen()
-            "/goalset" -> navigateToGoalSettingScreen()
-            "/mindful" -> navigateToMindfulPage()
-            "/twenty" -> navigateToTwentyPage()
-            "/twentyd" -> navigateToTwentyDetailScreen()
-            "/mindfuld" -> navigateToMindfulnessDetailScreen()
-            "/goalsetd" -> navigateToGoalsetDetailScreen()
-            "/intervention" -> navigateToInterventionScreen()
-            else -> println("Unhandled URI: $uri")
-        }
-    }
-
-    private fun navigateToMainTabViewScreen() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            action = Intent.ACTION_VIEW
-            data = Uri.parse("mindfulme-app://open.mindfulme.app/")
-        }
-        startActivity(intent)
-    }
-
-    private fun navigateToGoalSettingScreen() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            action = Intent.ACTION_VIEW
-            data = Uri.parse("mindfulme-app://open.mindfulme.app/goalset")
-        }
-        startActivity(intent)
-    }
-
-    private fun navigateToMindfulPage() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            action = Intent.ACTION_VIEW
-            data = Uri.parse("mindfulme-app://open.mindfulme.app/mindful")
-        }
-        startActivity(intent)
-    }
-
-    private fun navigateToTwentyPage() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            action = Intent.ACTION_VIEW
-            data = Uri.parse("mindfulme-app://open.mindfulme.app/twenty")
-        }
-        startActivity(intent)
-    }
-
-    private fun navigateToTwentyDetailScreen() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            action = Intent.ACTION_VIEW
-            data = Uri.parse("mindfulme-app://open.mindfulme.app/twentyd")
-        }
-        startActivity(intent)
-    }
-
-    private fun navigateToMindfulnessDetailScreen() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            action = Intent.ACTION_VIEW
-            data = Uri.parse("mindfulme-app://open.mindfulem.app/mindfuld")
-        }
-        startActivity(intent)
-    }
-
-    private fun navigateToGoalsetDetailScreen() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            action = Intent.ACTION_VIEW
-            data = Uri.parse("mindfulme-app://open.mindfulme.app/goalsetd")
-        }
-        startActivity(intent)
-    }
-
-    private fun navigateToInterventionScreen() {
-        val intent = Intent(this, MainActivity::class.java).apply {
-            action = Intent.ACTION_VIEW
-            data = Uri.parse("mindfulme-app:/open.mindfulme.app/intervention")
-        }
-        startActivity(intent)
-    }
-
+    override fun onInterrupt() {}
 }
